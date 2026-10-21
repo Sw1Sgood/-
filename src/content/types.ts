@@ -64,11 +64,30 @@ export interface ResourceRef {
   what: string
 }
 
+/** Блок развёрнутого текста урока. */
+export type LessonBlock =
+  | { type: 'p'; text: string }
+  | { type: 'list'; items: string[]; ordered?: boolean }
+  | { type: 'table'; caption: string; head: string[]; rows: string[][] }
+  /** Учебный (вымышленный) пример с условными числами. */
+  | { type: 'example'; title: string; paragraphs: string[] }
+  /** Врезка: важное предупреждение или вывод. */
+  | { type: 'note'; tone: 'info' | 'warn'; text: string }
+
+export interface LessonSection {
+  id: string
+  title: string
+  blocks: LessonBlock[]
+}
+
 export interface Lesson {
   id: string
   title: string
   minutes: number
+  /** Короткое вступление: о чём урок и зачем он нужен. */
   intro: string[]
+  /** Развёрнутый материал по разделам. Если есть — показывается после вступления с оглавлением. */
+  sections?: LessonSection[]
   terms: Term[]
   keyPoints: string[]
   questions: Question[]

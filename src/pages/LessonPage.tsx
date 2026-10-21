@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
+import { LessonBody } from '../components/LessonBody'
 import { PostponeControl, ResourceCard } from '../components/ResourceCard'
 import { LessonStatusBadge } from '../components/status'
 import { AutoTextarea, Disclosure, EmptyState, Notice, PageHeader, Section } from '../components/ui'
@@ -97,6 +98,11 @@ function Lesson({ id }: { id: string }) {
         <div className="prose-text max-w-prose text-[15px]">
           {lesson.intro.map((p, i) => <p key={i}>{p}</p>)}
         </div>
+        {lesson.sections && (
+          <div className="mt-6">
+            <LessonBody sections={lesson.sections} />
+          </div>
+        )}
       </Section>
 
       <Section title="Словарь">
