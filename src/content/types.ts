@@ -71,6 +71,8 @@ export type LessonBlock =
   | { type: 'table'; caption: string; head: string[]; rows: string[][] }
   /** Учебный (вымышленный) пример с условными числами. */
   | { type: 'example'; title: string; paragraphs: string[] }
+  /** Реальный случай из практики: только общеизвестные факты; source — где проверить детали. */
+  | { type: 'case'; title: string; paragraphs: string[]; source: string }
   /** Врезка: важное предупреждение или вывод. */
   | { type: 'note'; tone: 'info' | 'warn'; text: string }
 

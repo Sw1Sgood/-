@@ -44,6 +44,17 @@ function Block({ block }: { block: LessonBlock }) {
           </div>
         </aside>
       )
+    case 'case':
+      return (
+        <aside className="rounded-md border-l-4 border-good bg-good-soft/60 px-4 py-3">
+          <div className="text-xs font-medium tracking-wide text-good uppercase">Из реальной практики</div>
+          <div className="mt-1 font-semibold">{block.title}</div>
+          <div className="prose-text mt-2">
+            {block.paragraphs.map((p, i) => <p key={i}>{p}</p>)}
+          </div>
+          <p className="mt-2 text-xs text-muted">Где проверить: {block.source}</p>
+        </aside>
+      )
     case 'note':
       return (
         <aside className={`rounded-md px-4 py-3 ${block.tone === 'warn' ? 'bg-warn-soft text-ink' : 'bg-surface-2'}`}>
