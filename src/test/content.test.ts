@@ -61,3 +61,28 @@ describe('содержание курса', () => {
     for (const w of weeks) for (const s of w.skills) expect(skillIds.has(s)).toBe(true)
   })
 })
+
+describe('развёрнутые уроки', () => {
+  it('у каждого урока есть разделы и не меньше 1100 слов материала', () => {
+    for (const l of weeks.flatMap((w) => w.lessons)) {
+      expect(l.sections?.length, l.id).toBeGreaterThanOrEqual(5)
+      const text = l.sections!.flatMap((s) =>
+        s.blocks.flatMap((b) => {
+          if (b.type === 'p' || b.type === 'note') return [b.text]
+          if (b.type === 'list') return b.items
+          if (b.type === 'table') return b.rows.flat()
+          return b.paragraphs
+        }),
+      )
+      const words = text.join(' ').split(/\s+/).length
+      expect(words, l.id).toBeGreaterThanOrEqual(1100)
+    }
+  })
+
+  it('id разделов уникальны, реальные кейсы указывают, где проверить', () => {
+    const ids = weeks.flatMap((w) => w.lessons.flatMap((l) => l.sections!.map((s) => s.id)))
+    expect(new Set(ids).size).toBe(ids.length)
+    for (const s of weeks.flatMap((w) => w.lessons.flatMap((l) => l.sections!)))
+      for (const b of s.blocks) if (b.type === 'case') expect(b.source.length, s.id).toBeGreaterThan(5)
+  })
+})
